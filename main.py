@@ -22,7 +22,9 @@ def analyze_mental_health(user_input):
     - Low (No intervention needed, provide motivational response)
     - Moderate (Suggest stress-relief exercises like meditation)
     - High (Encourage seeking professional help, provide emergency helpline)
-  Provide a friendly and supportive response.
+
+user: "{user_input}"
+Provide a friendly and supportive response.
     """
 
     response = openai.ChatCompletion.create(
@@ -31,7 +33,20 @@ def analyze_mental_health(user_input):
     )
     
     return response["choices"][0]["message"]["content"]
+@app.route("/chat", methods=["POST"])
+def chat():
+    data = request.get_json()
+    user_input = data.get("message", "")
+    
+    if not user_input:
+        return jsonify({"response": "Please type a message."})
 
+    ai_response = get_vetmind_response(user_input)
+    return jsonify({"response": ai_response})
+
+if __name__ == "__main__":
+    app.run(debug=True)
+    
 print("Welcome to Althea AI – Your Mental Health Companion for Veterans 🥇🩷")
 while True:
     user_text = input("\n📝 How are you feeling today? (Type 'exit' to quit): ")
