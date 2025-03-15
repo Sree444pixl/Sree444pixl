@@ -2,16 +2,16 @@ from flask import Flask, request, jsonify
 import os
 import openai
 from dotenv import load_dotenv
-from flask_cors import CORS  # Import CORS for frontend access
+from flask_cors import CORS  
 
-# Load OpenAI API key from environment variables
+
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend communication
+CORS(app)  
 
-# Function to analyze user input and determine stress levels
+
 def analyze_mental_health(user_input):
     prompt = f"""
     You are a mental health AI assistant for veterans called Althea AI.
